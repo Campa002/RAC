@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generación de Contraseñas</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/generadorDeContraseñas.css">
+</head>
+<body>
+<div id="caja">
+  <!-- LOGO: reemplazar #logo-gen por <img src="tu-logo.png" width="72"> -->
+  <div id="logo-wrap">
+    <div id="logo-gen">
+      <img class="logo-RAC" src="/Imagenes/Logo-RAC-sinfondo.png" alt="">
+    </div>
+  </div>
+  <h1>Generador de Contraseñas</h1>
+  <p id="subtit">Creá contraseñas seguras</p>
+  <div id="res">Tu contraseña aparecerá aquí</div>
+  <div id="fuerza"></div>
+  <div id="barra-wrap"><div id="barra"></div></div>
+  <div class="sl-wrap">
+    <label>Longitud: <span id="num">12</span> caracteres</label>
+    <input type="range" id="lon" min="6" max="32" value="12" oninput="document.getElementById('num').textContent=this.value">
+  </div>
+  <label class="chk"><input type="checkbox" id="may" checked> Mayúsculas (A-Z)</label>
+  <label class="chk"><input type="checkbox" id="min" checked> Minúsculas (a-z)</label>
+  <label class="chk"><input type="checkbox" id="num2" checked> Números (0-9)</label>
+  <label class="chk"><input type="checkbox" id="sim"> Símbolos (!@#$...)</label>
+  <button id="btn" onclick="hacer()">Generar Contraseña</button>
+  <button id="copiar" onclick="cop()">Copiar</button>
+</div>
+<script src="/src/scripts/generadorDeContraseñas.js"></script>
+</body>
+</html>
