@@ -1,34 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Generación de Contraseñas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Contraseñas</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/styles/generadorDeContraseñas.css">
 </head>
 <body>
-<div id="caja">
-  <!-- LOGO: reemplazar #logo-gen por <img src="tu-logo.png" width="72"> -->
-  <div id="logo-wrap">
-    <div id="logo-gen">
-      <img class="logo-RAC" src="/Imagenes/Logo-RAC-sinfondo.png" alt="">
-    </div>
+
+<main class="card">
+  <div class="logo-wrapper">
+    <img class="logo-RAC" src="src/Imagenes/Logo-RAC-sinfondo.png" alt="">
   </div>
-  <h1>Generador de Contraseñas</h1>
-  <p id="subtit">Creá contraseñas seguras</p>
-  <div id="res">Tu contraseña aparecerá aquí</div>
-  <div id="fuerza"></div>
-  <div id="barra-wrap"><div id="barra"></div></div>
-  <div class="sl-wrap">
-    <label>Longitud: <span id="num">12</span> caracteres</label>
-    <input type="range" id="lon" min="6" max="32" value="12" oninput="document.getElementById('num').textContent=this.value">
+
+  <h1 class="card__title">Generador de Contraseñas</h1>
+  <p class="card__subtitle">Creá contraseñas seguras</p>
+
+  <!-- Resultado -->
+  <p class="password-output" id="passwordOutput" aria-live="polite">
+    Tu contraseña aparecerá aquí
+  </p>
+
+  <!-- Indicador de fuerza -->
+  <p class="strength-label" id="strengthLabel"></p>
+  <div class="strength-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="strength-bar-fill" id="strengthBar"></div>
   </div>
-  <label class="chk"><input type="checkbox" id="may" checked> Mayúsculas (A-Z)</label>
-  <label class="chk"><input type="checkbox" id="min" checked> Minúsculas (a-z)</label>
-  <label class="chk"><input type="checkbox" id="num2" checked> Números (0-9)</label>
-  <label class="chk"><input type="checkbox" id="sim"> Símbolos (!@#$...)</label>
-  <button id="btn" onclick="hacer()">Generar Contraseña</button>
-  <button id="copiar" onclick="cop()">Copiar</button>
-</div>
+
+  <!-- Longitud -->
+  <div class="length-control">
+    <label class="length-control__label" for="lengthSlider">
+      Longitud: <strong id="lengthDisplay">12</strong> caracteres
+    </label>
+    <input
+      class="length-control__slider"
+      type="range"
+      id="lengthSlider"
+      min="6"
+      max="32"
+      value="12"
+    >
+  </div>
+
+  <!-- Opciones de caracteres -->
+  <label class="option-checkbox">
+    <input type="checkbox" id="includeUppercase" checked>
+    Mayúsculas (A-Z)
+  </label>
+  <label class="option-checkbox">
+    <input type="checkbox" id="includeLowercase" checked>
+    Minúsculas (a-z)
+  </label>
+  <label class="option-checkbox">
+    <input type="checkbox" id="includeNumbers" checked>
+    Números (0-9)
+  </label>
+  <label class="option-checkbox">
+    <input type="checkbox" id="includeSymbols">
+    Símbolos (!@#$...)
+  </label>
+
+  <button class="btn-primary" id="generateBtn">Generar Contraseña</button>
+  <button class="btn-secondary" id="copyBtn">Copiar</button>
+
+</main>
+
 <script src="/src/scripts/generadorDeContraseñas.js"></script>
+
 </body>
 </html>
