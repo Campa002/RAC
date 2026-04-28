@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAC — Reporte de Clasificaciones</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/styles/formularioIndexedDB.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-badge">
+      <i class="fa-solid fa-recycle" style="font-size:22px;color:white"></i>
+    </div>
+    <div class="header-text">
+      <h1>RAC — Reporte de Clasificaciones</h1>
+      <p>Registro diario de residuos procesados por el sistema</p>
+    </div>
+    <div class="header-status">
+      <span class="status-dot"></span>
+      IndexedDB activo
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-label">Registros totales</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statHoy">0</div>
+      <div class="stat-label">Registros hoy</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statProm">—</div>
+      <div class="stat-label">Confianza promedio</div>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="card">
+    <p class="card__title">Nuevo registro de clasificación</p>
+
+    <form id="formReporte" novalidate>
+      <div class="form-grid">
+
+        <!-- Operario -->
+        <div class="form-group">
+          <label for="operario">Operario / Sector</label>
+          <input type="text" id="operario" placeholder="Ej: Sector A — Juan Pérez" required>
+        </div>
+
+        <!-- Fecha y hora -->
+        <div class="form-group">
+          <label for="fechaHora">Fecha y hora del turno</label>
+          <input type="datetime-local" id="fechaHora" required>
+        </div>
+
+        <!-- Categoría -->
+        <div class="form-group full">
+          <label>Categoría clasificada</label>
+          <div class="cat-grid">
+
+            <div>
+              <input class="cat-option" type="radio" name="categoria" id="catElec" value="Electrónico">
+              <label class="cat-label" for="catElec">
+                <span class="cat-icon" style="background:rgba(99,102,241,0.12);color:#6366f1">
+                  <i class="fa-solid fa-microchip"></i>
+                </span>
+                Electrónico
+              </label>
+            </div>
+
+            <div>
+              <input class="cat-option" type="radio" name="categoria" id="catDes" value="Desechable">
+              <label class="cat-label" for="catDes">
+                <span class="cat-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b">
+                  <i class="fa-solid fa-wine-bottle"></i>
+                </span>
+                Desechable
+              </label>
+            </div>
+
+            <div>
+              <input class="cat-option" type="radio" name="categoria" id="catRec" value="Reciclable liviano">
+              <label class="cat-label" for="catRec">
+                <span class="cat-icon" style="background:rgba(58,181,74,0.12);color:#3ab54a">
+                  <i class="fa-solid fa-recycle"></i>
+                </span>
+                Reciclable liviano
+              </label>
+            </div>
+
+            <div>
+              <input class="cat-option" type="radio" name="categoria" id="catOrg" value="Orgánico">
+              <label class="cat-label" for="catOrg">
+                <span class="cat-icon" style="background:rgba(161,98,7,0.12);color:#a16207">
+                  <i class="fa-solid fa-leaf"></i>
+                </span>
+                Orgánico
+              </label>
+            </div>
+
+            <div>
+              <input class="cat-option" type="radio" name="categoria" id="catMet" value="Metal">
+              <label class="cat-label" for="catMet">
+                <span class="cat-icon" style="background:rgba(100,116,139,0.12);color:#64748b">
+                  <i class="fa-solid fa-gear"></i>
+                </span>
+                Metal
+              </label>
+            </div>
+
+            <div>
+              <input class="cat-option" type="radio" name="categoria" id="catCon" value="Contingencia">
+              <label class="cat-label" for="catCon">
+                <span class="cat-icon" style="background:rgba(225,29,72,0.12);color:#e11d48">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                </span>
+                Contingencia
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Cantidad procesada -->
+        <div class="form-group">
+          <label for="cantidad">Cantidad procesada (unidades)</label>
+          <input type="number" id="cantidad" min="1" max="9999" placeholder="Ej: 42" required>
+        </div>
+
+        <!-- Modo de operación -->
+        <div class="form-group">
+          <label for="modo">Modo de operación</label>
+          <select id="modo" required>
+            <option value="" disabled selected>Seleccionar modo</option>
+            <option value="Unitario">Unitario</option>
+            <option value="Volumen">Volumen</option>
+          </select>
+        </div>
+
+        <!-- Confianza IA -->
+        <div class="form-group full">
+          <label>Nivel de confianza promedio de la IA</label>
+          <div class="confidence-wrap">
+            <div class="confidence-row">
+              <span style="font-size:13px;color:var(--text-muted)">Mover para ajustar</span>
+              <span class="confidence-value" id="confLabel">75%</span>
+            </div>
+            <input type="range" id="confianza" min="0" max="100" value="75">
+            <div class="confidence-bar-track">
+              <div class="confidence-bar-fill" id="confBar" style="width:75%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Observaciones -->
+        <div class="form-group full">
+          <label for="observaciones">Observaciones / Incidencias</label>
+          <textarea id="observaciones" placeholder="Ej: Residuos húmedos afectaron la precisión en 3 ciclos. Calibración de compuerta requerida."></textarea>
+        </div>
+
+      </div>
+
+      <!-- Botones -->
+      <div class="btn-row" style="margin-top:20px">
+        <button type="button" class="btn-secondary" id="btnLimpiar">Limpiar</button>
+        <button type="submit" class="btn-primary" id="btnGuardar">
+          <i class="fa-solid fa-floppy-disk" style="margin-right:6px"></i> Guardar en IndexedDB
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Historial -->
+  <div class="card">
+    <div class="history-header">
+      <p class="card__title" style="margin-bottom:0">Historial de registros</p>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="history-count" id="histCount">0 registros</span>
+        <button class="btn-danger" id="btnLimpiarTodo">Borrar todo</button>
+      </div>
+    </div>
+    <div id="historialContainer">
+      <div class="history-empty">
+        <i class="fa-regular fa-clipboard"></i>
+        Aún no hay registros guardados.<br>Completá el formulario para empezar.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="src/scripts/formularioIndexedDB.js"></script>
+
+</body>
+</html>
